@@ -1,8 +1,21 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 
-class ProductSchema(BaseModel):
+class BaseProductSchema(BaseModel):
+  name: str = Field(max_length=50)
+  price: int
+  
+class CreateProductSchema(BaseProductSchema):
+  product_line_id: int
+  
+class ProductSchema(BaseProductSchema):
   id: int
-  email: str
-  password: str = Field(min_length=8)
-  role: str
+  product_line_id: int
+  
+  
+class ProductLineSchema(BaseModel):
+  id: int
+  name: str = Field(max_length=30)
+  
+class CreateProductLineSchema(BaseModel):
+  name: str = Field(max_length=30)
