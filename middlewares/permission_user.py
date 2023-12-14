@@ -6,9 +6,9 @@ from config.database import SessionDB
 from models.user_model import User
 
 class UserPermission(HTTPBearer):
-  def __init__(self, role: str = 'all'):
+  def __init__(self, *roles: str):
     super().__init__()
-    self.role = role
+    self.roles = roles
     
   async def __call__(self, request: Request):
     auth = await super().__call__(request)
@@ -23,7 +23,7 @@ class UserPermission(HTTPBearer):
     if not user:
       raise HTTPException(status_code=401, detail='Invalid user')
     
-    if self.role != 'all' and self.role != user.role:
+    if len(self.roles) != 0 and self.roles[0] != 'all' and user.role not in self.roles:
       raise HTTPException(status_code=403, detail='You do not have permission to access this resource')
     
     return user
