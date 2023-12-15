@@ -21,6 +21,7 @@ tags = ['Products']
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_all_products() -> List[ProductSchema]:
+  '''Get all products for all users'''
   db = SessionDB()
   products = db.query(Product).all()
   return JSONResponse(content=jsonable_encoder(products), status_code=200)
@@ -33,6 +34,7 @@ def get_all_products() -> List[ProductSchema]:
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_product_by_id(id: int):
+  '''Get product by id for all users'''
   db = SessionDB()
   product = db.query(Product).filter(Product.id == id).first()
   response = JSONResponse(content=jsonable_encoder(product), status_code=200)
@@ -50,6 +52,7 @@ def get_product_by_id(id: int):
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_products_by_line(product_line: str = Query(max_length=30)):
+  '''Get products by product line for all users'''
   db = SessionDB()
   products = (
     db.query(ProductLine)
@@ -72,6 +75,7 @@ def get_products_by_line(product_line: str = Query(max_length=30)):
   dependencies=[Depends(UserPermission('admin'))]
 )
 def add_product(product: CreateProductSchema):
+  '''Add product for admin users'''
   db = SessionDB()
   new_product = Product(**product.model_dump())
   db.add(new_product)
@@ -86,6 +90,7 @@ def add_product(product: CreateProductSchema):
   dependencies=[Depends(UserPermission('admin'))]
 )
 def update_product(id: int, product: CreateProductSchema):
+  '''Update product by id for admin users'''
   db = SessionDB()
   product_query = db.query(Product).filter(Product.id == id).first()
   
@@ -102,6 +107,7 @@ def update_product(id: int, product: CreateProductSchema):
 
 @products_router.delete('/products/{id}', tags=tags, response_model=dict, status_code=200, dependencies=[Depends(UserPermission('admin'))])
 def delete_product(id: int):
+  '''Delete product by id for admin users'''
   db = SessionDB()
   product = db.query(Product).filter(Product.id == id).first()
   if not product:

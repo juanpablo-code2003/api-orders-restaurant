@@ -11,7 +11,7 @@ from schemas.product_schemas import ProductLineSchema, CreateProductLineSchema
 
 product_lines_router = APIRouter()
 
-tags = ['Products']
+tags = ['Product Lines']
 
 @product_lines_router.get(
   '/product_lines', 
@@ -21,6 +21,7 @@ tags = ['Products']
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_all_product_lines() -> List[ProductLineSchema]:
+  '''Get all product lines for all users'''
   db = SessionDB()
   product_lines = db.query(ProductLine).all()
   return JSONResponse(content=jsonable_encoder(product_lines), status_code=200)
@@ -33,6 +34,7 @@ def get_all_product_lines() -> List[ProductLineSchema]:
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_product_by_id(id: int):
+  '''Get product line by id for all users'''
   db = SessionDB()
   product = db.query(ProductLine).filter(ProductLine.id == id).first()
   response = JSONResponse(content=jsonable_encoder(product), status_code=200)
@@ -50,6 +52,7 @@ def get_product_by_id(id: int):
   dependencies=[Depends(UserPermission('all'))]
 )
 def get_product_lines_by_name(name: str = Query(max_length=30)):
+  '''Get product lines by name for all users'''
   db = SessionDB()
   product_lines = (
     db.query(ProductLine)
@@ -71,6 +74,7 @@ def get_product_lines_by_name(name: str = Query(max_length=30)):
   dependencies=[Depends(UserPermission('admin'))]
 )
 def add_product_line(product_line: CreateProductLineSchema):
+  '''Add product line for admin users'''
   db = SessionDB()
   new_product_line = ProductLine(**product_line.model_dump())
   db.add(new_product_line)
@@ -85,6 +89,7 @@ def add_product_line(product_line: CreateProductLineSchema):
   dependencies=[Depends(UserPermission('admin'))]
 )
 def update_product_line(id: int, product_line: CreateProductLineSchema):
+  '''Update product line for admin users'''
   db = SessionDB()
   product_line_query = db.query(ProductLine).filter(ProductLine.id == id).first()
   
@@ -99,6 +104,7 @@ def update_product_line(id: int, product_line: CreateProductLineSchema):
 
 @product_lines_router.delete('/product_lines/{id}', tags=tags, response_model=dict, status_code=200, dependencies=[Depends(UserPermission('admin'))])
 def delete_product_line(id: int):
+  '''Delete product line by id for admin users'''
   db = SessionDB()
   product_line = db.query(ProductLine).filter(ProductLine.id == id).first()
   if not product_line:

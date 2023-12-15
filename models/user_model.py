@@ -32,8 +32,7 @@ class UserClient(User):
   
   orders = relationship(
     'Order', 
-    back_populates='client', 
-    cascade='all, delete-orphan'
+    back_populates='client'
   )
   
   __mapper_args__ = {
@@ -47,8 +46,7 @@ class UserDelivery(User):
   
   orders = relationship(
     'Order', 
-    back_populates='delivery', 
-    cascade='all, delete-orphan'
+    back_populates='delivery'
   )
   
   __mapper_args__ = {

@@ -8,19 +8,17 @@ class Product(Base):
   id: Mapped[int] = mapped_column(primary_key=True, index=True)
   name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
   price: Mapped[int] = mapped_column(nullable=False)
-  product_line_id: Mapped[int] = mapped_column(ForeignKey('product_lines.id'), nullable=False)
+  product_line_id: Mapped[int] = mapped_column(ForeignKey('product_lines.id', ondelete='SET NULL'), nullable=False)
   
   items_orders = relationship(
     'ItemOrder', 
-    back_populates='product', 
-    cascade='all'
+    back_populates='product'
   )
   
   product_line = relationship(
     'ProductLine', 
     back_populates='products', 
     uselist=False,
-    cascade='all'
   )
   
 
@@ -33,5 +31,4 @@ class ProductLine(Base):
   products = relationship(
     'Product', 
     back_populates='product_line', 
-    cascade='all'
   )
