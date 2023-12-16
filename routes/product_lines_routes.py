@@ -41,7 +41,7 @@ def get_all_product_lines() -> List[ProductLineSchema]:
   status_code=200, 
   dependencies=[Depends(UserPermission('all'))]
 )
-def get_product_by_id(id: int):
+def get_product_line_by_id(id: int):
   '''Get product line by id for all users'''
   db = SessionDB()
   product = db.query(ProductLine).filter(ProductLine.id == id).first()
@@ -68,7 +68,7 @@ def get_product_lines_by_name(name: str = Query(max_length=30)):
     .all()
   )
   
-  response = JSONResponse(content=product_lines, status_code=200)
+  response = JSONResponse(content=jsonable_encoder(product_lines), status_code=200)
   if not product_lines:
     response = JSONResponse(content={'message': 'Product line not found'}, status_code=404)
     
