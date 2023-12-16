@@ -30,7 +30,7 @@ A continuación las funcionalidades por tipo de usuario:
 
     ~~~bash
     python -m venv venv
-    .\.venv\Scripts\Activate.ps1
+    .\venv\Scripts\activate
     pip install -r requirements.txt
     python seeding.py
     uvicorn main:app --port 8000
