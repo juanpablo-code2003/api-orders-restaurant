@@ -1,3 +1,11 @@
+'''
+Manejo de rutas para autenticación.
+
+Author: Juan Pablo Garcia Montes
+Date: 2023-12-15
+Version: 1.0
+'''
+
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 

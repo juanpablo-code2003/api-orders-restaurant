@@ -195,5 +195,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
 
 # Database files
-*.sqlite
-*.sqlite3
+database.sqlite

@@ -1,3 +1,11 @@
+'''
+Manjeo de las rutas de líneas de productos.
+
+Author: Juan Pablo Garcia Montes
+Date: 2023-12-15
+Version: 1.0
+'''
+
 from fastapi import APIRouter, Query, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
